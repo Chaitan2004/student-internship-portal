@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Certificate</title>
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            margin: 20;
+            padding: 20px;
+            background-color: #f4f4f4;
+            font-size: 14px;
+        }
+
+       .container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            max-width: 800px;
+            margin: 10px auto;
+            position: relative;
+            overflow: hidden;
+            z-index: 0;
+        }
+
+        .container::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100%;
+            height: 100%;
+            background-image: url('https://media.licdn.com/dms/image/C560BAQGq-I3gfKxgOA/company-logo_200_200/0/1630652613712?e=2147483647&v=beta&t=iFo12mEhAA58AW9hvsbOw442ZbrANZCuO1JdgdYW4K8');
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: 500px;
+            opacity: 0.1;
+            z-index: -1;
+            pointer-events: none; /* Ensure it doesn't interfere with other elements */
+        }
+
+        .ref-no-container {
+            position: absolute;
+            top: 10px;
+            right: 40px;
+            font-size: 16px;
+            z-index: 1;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+            position: relative;
+            padding-top: 50px;
+            z-index: 1;
+        }
+
+        .header img {
+            position: absolute;
+            left: 5px;
+            top: 5px;
+            width: 60px;
+            height: auto;
+            z-index: 1;
+        }
+
+        .header h1 {
+            margin: 5px 0;
+            font-size: 20px;
+            font-family: 'Times New Roman', serif;
+            z-index: 1;
+        }
+
+        .header p {
+            margin: 0;
+            font-size: 14px;
+            z-index: 1;
+        }
+
+        th, td {
+            padding: 5px;
+            vertical-align: top;
+            z-index: 1;
+        }
+
+        .cldc {
+            text-align: left;
+            z-index: 1;
+        }
+
+        .ann {
+            text-align: right;
+            z-index: 1;
+        }
+
+        .form-content {
+            font-size: 14px;
+            z-index: 1;
+        }
+
+        .form-content p {
+            margin: 5px 0;
+            font-size: 14px;
+            z-index: 1;
+        }
+
+        .form-content label {
+            display: block;
+            margin: 10px 0;
+            z-index: 1;
+        }
+
+        .certificate-title {
+            text-align: center;
+            font-size: 18px;
+            margin: 20px 0;
+            z-index: 1;
+        }
+
+        .certificate-title1 {
+            text-align: center;
+            font-size: 18px;
+            z-index: 1;
+        }
+
+        .signature-section {
+            margin-top: 40px;
+            z-index: 1;
+        }
+
+        .signature-section p {
+            margin-right: 20px;
+            padding-right: 40px;
+            text-align: right;
+            z-index: 1;
+        }
+
+        .signature p {
+            text-align: right;
+            z-index: 1;
+        }
+
+        .footer p {
+            margin: 5px 0;
+            z-index: 1;
+        }
+
+        .address-input {
+            width: 100%;
+            height: 50px;
+            resize: none;
+            border: none;
+            z-index: 1;
+        }
+
+        .button-container {
+            text-align: center;
+            margin-top: 20px;
+            z-index: 1;
+        }
+
+        .button-container button {
+            background-color: #004080;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            z-index: 1;
+        }
+
+        .button-container button:hover {
+            background-color: #003366;
+            z-index: 1;
+        }
+
+                .home-button-container {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            z-index: 1;
+        }
+
+        .home-button {
+            background-color: #004080;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            text-decoration: none;
+            font-size: 14px;
+            cursor: pointer;
+            display: inline-block;
+            z-index: 1;
+        }
+
+        .home-button:hover {
+            background-color: #003366;
+            z-index: 1;
+        }
+
+
+        .content {
+           font-family: 'Times New Roman', serif;
+           font-size: 20px;
+           z-index: 1;
+        }
+         .checkbox-container {
+            text-align: center;
+            margin-bottom: 20px;
+            z-index: 1;
+        }
+
+        @media print {
+            .home-button-container {
+                display: none;
+            }
+
+            .button-container, .edit-button ,.checkbox-container{
+                display: none;
+            }
+
+            .container::before {
+                opacity: 0.1;
+            }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="ref-no-container">
+            <p>संदर्भ संख्या <strong>Ref No. {{ ref_no }}</strong></p>
+        </div>
+        <div class="header">
+            <img src="https://media.licdn.com/dms/image/C560BAQGq-I3gfKxgOA/company-logo_200_200/0/1630652613712?e=2147483647&v=beta&t=iFo12mEhAA58AW9hvsbOw442ZbrANZCuO1JdgdYW4K8" alt="ECIL Logo">
+            <h1>इलेक्ट्रॉनिक्स कॉरपोरेशन ऑफ इंडिया लिमिटेड</h1>
+            <h1>Electronics Corporation of India Limited</h1>
+            <p>भारत सरकार (परमाणु ऊर्जा विभाग) का एक उपक्रम</p>
+            <p>A Govt. of India (Dept. of Atomic Energy) Enterprise</p>
+            <p>मानव संसाधन&nbsp;/&nbsp;कॉर्पोरेट शिक्षण और विकास केंद्र</p>
+            <p>Human Resource&nbsp;/&nbsp;Corporate Learning & Development Center</p>
+            <p>हैदराबाद&nbsp;/&nbsp;Hyderabad - 500 062</p>
+            <p>फ़ोन&nbsp;/&nbsp;Tel. 040-27182279</p>
+        </div>
+
+        <div class="content">
+            <h1 class="certificate-title"><u>प्रमाणपत्र <br>CERTIFICATE</u></h1>
+            <p>
+                Certified that
+                {% if gender == 'male' %}
+                    Mr. <strong>{{ student_name | upper }}</strong>, s/o
+                {% else %}
+                    Mrs. <strong>{{ student_name | upper }}</strong>, d/o
+                {% endif %}
+                <strong>{{ guardian_name | upper }}</strong>, a student of
+                <strong>{{ college_name | upper }}</strong> studying in
+                <strong>{{ branch | upper }} ({{ course | upper }})</strong>, has completed the project work/training from
+                <strong>{{ start_date }}</strong> to <strong>{{ end_date }}</strong> on
+                <strong>{{ title | upper }}</strong> in our <strong>{{ division | upper }} DIVISION</strong>.
+            </p><br><br>
+
+            <p>
+                This is issued as partial fulfillment of
+                {% if gender == 'male' %}
+                   <strong>his</strong>
+                {% else %}
+                   <strong>her</strong>
+                {% endif %}
+                academic program/curriculum.<br><br>
+                {% if gender == 'male' %}
+                    <strong>His</strong>
+                {% else %}
+                   <strong>Her</strong>
+                {% endif %}
+                performance during training was found to be satisfactory.
+            </p>
+        </div>
+        <br><br>
+        <div class="signature-section">
+            <p>(डॉ. राज नारायण अवस्थी&nbsp;/&nbsp;<strong>Dr. Raj Narayan Awasthi</strong>)<br>
+                प्रबंधक सीएलडीसी&nbsp;/&nbsp;<strong>Manager CLDC</strong></p>
+        </div>
+        <p>दिनांक/Date: <strong>{{ today_date }}</strong></p>
+
+
+    </div>
+<div class="home-button-container">
+        <a href="/adminhome" class="home-button">Home</a>
+    </div>
+
+</body>
+</html>

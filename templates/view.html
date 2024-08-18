@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Project Work Details Form</title>
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            margin: 20;
+            padding: 20px;
+            background-color: #f4f4f4;
+            font-size: 14px;
+        }
+
+        .container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            max-width: 800px;
+            margin: 10px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .header img {
+            position: absolute;
+            left: 5px;
+            top: 5px;
+            width: 60px; /* Adjust the width as needed */
+            height: auto;
+        }
+
+        .header h1 {
+            margin: 5px 0;
+            font-size: 15px;
+            text-transform: uppercase;
+        }
+
+        .header p {
+            margin: 0;
+            font-size: 14px;
+        }
+
+        th, td {
+            padding: 5px;
+            vertical-align: top;
+        }
+        .ann {
+            text-align: right;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            border: 1px solid #000;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+         .signature-div {
+        margin-top: 100px;
+        font-size: 14px;
+        margin-left: -100;
+        margin-bottom: -30px;/* Adjust this value to position the div as required */
+    }
+
+    .signature-div p {
+        margin: 0;
+
+    }
+    .signature-div3 {
+        margin-top: 70px;
+        font-size: 14px;
+        margin-left: -100;
+        margin-bottom: 20px;/* Adjust this value to position the div as required */
+    }
+
+    .signature-div2 {
+        margin-top: 40px;
+        text-align: center;
+        font-size: 14px;
+    }
+
+        .button-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .button-container button {
+            background-color: #004080;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .button-container button:hover {
+            background-color: #003366;
+        }
+        .annexure-a {
+            position: absolute;
+            top: 10px; /* Adjust the top position as needed */
+            right: 10px; /* Adjust the right position as needed */
+            font-weight: bold;
+        }
+        .edit-button {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .edit-button a {
+            background-color: #ff8000;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 4px;
+            display: inline-block;
+        }
+
+        .edit-button a:hover {
+            background-color: #cc6600;
+        }
+         @media print {
+            .button-container, .edit-button {
+                display: none;
+            }
+        }
+        .home-button-container {
+    position: absolute;
+    top: 10px; /* Adjust the top position as needed */
+    right: 10px; /* Adjust the right position as needed */
+}
+
+.home-button {
+    background-color: #004080;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    text-decoration: none;
+    font-size: 14px;
+    cursor: pointer;
+    display: inline-block;
+}
+
+.home-button:hover {
+    background-color: #003366;
+}
+
+@media print {
+    .home-button-container {
+        display: none;
+    }
+}
+    </style>
+</head>
+<body>
+        <div class="container">
+        <div class="header">
+            <img src="https://media.licdn.com/dms/image/C560BAQGq-I3gfKxgOA/company-logo_200_200/0/1630652613712?e=2147483647&v=beta&t=iFo12mEhAA58AW9hvsbOw442ZbrANZCuO1JdgdYW4K8" alt="ECIL Logo">
+            <p>इलेक्ट्रॉनिक्स कॉरपोरेशन ऑफ इंडिया लिमिटेड</p>
+            <h1>ELECTRONICS CORPORATION OF INDIA LIMITED</h1>
+            <p>मानव संसाधन प्रबंधन-निगमीय शिक्षण और विकास केंद्र</p>
+            <h1>HRM-CORPORATE LEARNING AND DEVELOPMENT CENTRE</h1>
+            <p>हैदराबाद <b>HYDERABAD- 500 062</b></p>
+            <h1>PH: 040- 2718 2279/ 2718 6454  EMAIL: cldc@ecil.co.in</h1>
+            <p>-----------------------------------------------------------------------------------------------------------------------------</p><br>
+            <div class="ann"><strong>Date:</strong>{{ submission_date }}</div><br>
+        <div class="annexure-a">ANNEXURE-A</div>
+
+            <p><strong>Sub:</strong> - PROJECT WORK/ INTERNSHIP AT ECIL-- REG.<br/><b>* * * *</b></p>
+        </div>
+
+
+        <p>I hereby give my consent to guide the following student(s) as per below mentioned details:</p>
+
+        <table>
+            <tr>
+                <th>Sg No.</th>
+                <th>Name of the student</th>
+                <th>Course details</th>
+                <th>Branch</th>
+                <th>Institute name</th>
+                <th>Project domain</th>
+                <th>Project title</th>
+            </tr>
+            {% for student in student_details %}
+            <tr>
+                <td>{{ loop.index }}</td>
+                <td>{{ student.name }}</td>
+                <td>{{ student.course }}</td>
+                <td>{{ student.branch }}</td>
+                <td>{{ student.institute_name }}</td>
+                <td>{{ student.project_domain }}</td>
+                <td>{{ student.project_title }}</td>
+            </tr>
+            {% endfor %}
+
+            {# Fill empty rows if less than 6 students are found #}
+            {% for i in range(student_details | length, 6) %}
+            <tr>
+                <td>{{ loop.index + student_details | length }}</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            {% endfor %}
+        </table>
+
+
+        <div class="signature-div">
+        <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Signature of Mentor</p><br>
+       </div>
+        <p>(SM/DGM/SDGM/AGM/HoD)</p>
+        <br>
+    <div class="signature-div2">
+        <p><b>Signature of Head of Division/GM/ED</b></p>
+    </div>
+
+    <div class="signature-div3">
+        <p>To <br>In Charge (CLDC)</p>
+
+    </div>
+    <div class="page-number">
+        Page 1 of 1
+    </div>
+        <div class="button-container">
+            <button onclick="window.print()">Print</button>
+        </div>
+        <div class="edit-button">
+        <a href="/mentoredit">Edit</a>
+    </div>
+
+
+    </div>
+
+<div class="home-button-container">
+    <a href="/ophome" class="home-button">Home</a>
+</div>
+</body>
+</html>

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ECIL Admin Portal</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+
+
+</head>
+<body>
+    <header>
+        <div class="header-left">
+            <img src="{{ url_for('static', filename='EC_Logo.png') }}" alt="ECIL Logo" class="logo">
+            <h1>ELECTRONICS CORPORATION OF INDIA LIMITED</h1>
+        </div>
+        <div class="header-right">
+            <div class="date">
+                <span id="current-date"></span>
+            </div>
+            <div class="dropdown">
+                <button class="dropbtn">{{ type }} : {{ id }}</button>
+                <div class="dropdown-content">
+                    <a href="#" id="logout">Logout</a>
+                    <a href="#" class="drop-link" data-page="change-details" id="change-details">Change Password</a>
+                </div>
+            </div>
+        </div>
+    </header>
+    <main>
+        <nav class="sidebar">
+            <a href="#" class="nav-link" data-page="homestu2">Home</a>
+            <a href="#" class="nav-link" data-page="createuserdisplay">Create User</a>
+            <a href="#" class="nav-link" data-page="operator-details">Operator Details</a>
+            <a href="#" class="nav-link" data-page="stu2">Fetch Students Internship Data</a>
+            <a href="#" class="nav-link" data-page="fetchmentoracc">Fetch Mentor Acceptance Forms</a>
+            <a href="#" class="nav-link" data-page="certificatesnotcollected">Certificates Not Collected</a>
+            <a href="#" class="nav-link" data-page="verification">Internship Verification</a>
+        </nav>
+        <section class="content" id="content">
+            {% include 'homestu2.html' %}
+        </section>
+    </main>
+    <script>
+        document.getElementById('current-date').textContent = new Date().toLocaleDateString();
+
+        document.getElementById('logout').addEventListener('click', function(e) {
+            e.preventDefault();
+            fetch('/logout', { method: 'GET' }).then(response => {
+                if (response.redirected) {
+                    window.location.href = response.url;
+                }
+            });
+        });
+
+        document.getElementById('change-details').addEventListener('click', function(e) {
+            e.preventDefault();
+            fetch('/changedetails2').then(response => response.text()).then(html => {
+                document.getElementById('content').innerHTML = html;
+            });
+        });
+
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const page = this.getAttribute('data-page');
+                if (page === "mentor-acceptance-form") {
+                    fetch(`/${page}`).then(response => response.text()).then(html => {
+                        document.getElementById('content').innerHTML = html;
+                        document.getElementById('print-empty-form').addEventListener('click', function(e) {
+                            e.preventDefault();
+                            window.open('/print-empty-form', '_blank');
+                        });
+                        document.getElementById('upload-pdf').addEventListener('click', function(e) {
+                            e.preventDefault();
+                            window.open('/upload-pdf', '_blank');
+                        });
+                    });
+                } else {
+                    fetch(`/${page}`).then(response => response.text()).then(html => {
+                        document.getElementById('content').innerHTML = html;
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

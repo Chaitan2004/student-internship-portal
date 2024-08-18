@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Training Completion Report</title>
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            margin: 20px;
+            padding: 20px;
+            background-color: #f4f4f4;
+            font-size: 14px;
+        }
+
+        .container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            max-width: 800px;
+            margin: auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .header img {
+            position: absolute;
+            left: 5px;
+            top: 5px;
+            width: 70px;
+            height: auto;
+        }
+
+        .header h1 {
+            margin: 5px 0;
+            font-size: 15px;
+            text-transform: uppercase;
+            text-decoration: underline;
+        }
+
+        .header p {
+            margin: 0;
+            font-size: 14px;
+        }
+
+        .form-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .form-table td {
+            padding: 10px;
+            border-bottom: none;
+            text-align: left;
+        }
+
+        .form-table td.label {
+            width: 40%;
+            font-weight: bold;
+            padding-right: 10px;
+        }
+
+        .form-table td.colon {
+            width: 10%;
+            text-align: left;
+        }
+
+        .form-table td.value {
+            width: 50%;
+            font-weight: bold;
+        }
+
+        .form-table td.value p {
+            margin: 10px 0;
+        }
+
+       .signature-section {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 40px;
+    font-size: 14px;
+}
+
+.signature-item {
+    width: 48%; /* Adjust width as needed */
+    text-align: center;
+}
+
+.signature-section2 {
+    margin-top: 20px; /* Adjust space from the section above if needed */
+    text-align: center;
+    font-size: 14px;
+    width: 100%; /* Ensure it takes full width of its container */
+    display: flex;
+}
+
+
+        .signature-section p {
+            margin: 10px 0;
+            font-weight: bold;
+        }
+.home-button-container {
+    position: absolute;
+    top: 10px; /* Adjust the top position as needed */
+    right: 10px; /* Adjust the right position as needed */
+}
+
+.home-button {
+    background-color: #004080;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    text-decoration: none;
+    font-size: 14px;
+    cursor: pointer;
+    display: inline-block;
+}
+
+.home-button:hover {
+    background-color: #003366;
+}
+
+@media print {
+    .home-button-container {
+        display: none;
+    }
+}
+        .button-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .button-container button {
+            background-color: #004080;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .button-container button:hover {
+            background-color: #003366;
+        }
+        .ann {
+           text-align: right;
+           font-size: 14px; /* Adjust the font size if needed */
+        }
+        .edit-button {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .edit-button a {
+            background-color: #ff8000;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 4px;
+            display: inline-block;
+        }
+
+        .edit-button a:hover {
+            background-color: #cc6600;
+        }
+        @media print {
+            .button-container, .edit-button {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <img src="https://media.licdn.com/dms/image/C560BAQGq-I3gfKxgOA/company-logo_200_200/0/1630652613712?e=2147483647&v=beta&t=iFo12mEhAA58AW9hvsbOw442ZbrANZCuO1JdgdYW4K8" alt="ECIL Logo">
+        <h1>ELECTRONICS CORPORATION OF INDIA LIMITED</h1>
+        <h1>PERSONAL GROUP</h1>
+        <h1>CORPORATE LEARNING CENTRE</h1>
+        <h1>HYDERABAD - 500 062</h1>
+        <div class="ann"><strong>REGD NO: {{ student.ref_no }}</strong></div><br>
+        <h1>TRAINING COMPLETION REPORT (To be filled by the PROJECT GUIDE)<br/></h1>
+    </div>
+
+    <table class="form-table">
+        <tr>
+            <td class="label">1. Name of the Student Trainee</td>
+            <td class="colon">:</td>
+            <td class="value">{{ student.name }}</td>
+        </tr>
+        <tr>
+            <td class="label">2. Father's Name</td>
+            <td class="colon">:</td>
+            <td class="value">{{ student.guardian_name }}</td>
+        </tr>
+        <tr>
+            <td class="label">3. Course Studying at Present</td>
+            <td class="colon">:</td>
+            <td class="value">{{ student.course }}</td>
+        </tr>
+        <tr>
+            <td class="label">4. Name and Address of Institute</td>
+            <td class="colon">:</td>
+            <td class="value">{{ student.institute_name }}</td>
+        </tr>
+        <tr>
+            <td class="label">5. Student Address</td>
+            <td class="colon">:</td>
+            <td class="value">{{ student.permanent_address }}</td>
+        </tr>
+        <tr>
+            <td class="label">6. Division Allotted for Project Work</td>
+            <td class="colon">:</td>
+            <td class="value">{{ student.project_group }}</td>
+        </tr>
+        <tr>
+            <td class="label">7. Period of Training</td>
+            <td class="colon">:</td>
+            <td class="value">From {{ student.training_from_date }} To {{ student.training_to_date }}</td>
+        </tr>
+        <tr>
+            <td class="label">8. Details of Project Assigned<BR>&nbsp;&nbsp;&nbsp;(IN CAPITAL LETTERS)</td>
+            <td class="colon">:</td>
+            <td class="value">{{ student.projectdetails }}</td>
+        </tr>
+        <tr>
+            <td class="label">9. Attendance during Training Period</td>
+            <td class="colon">:</td>
+            <td class="value">{{ student.attendance }}</td>
+        </tr>
+        <tr>
+            <td class="label">10. Conduct during Training Period</td>
+            <td class="colon">:</td>
+            <td class="value">{{ student.conduct }}</td>
+        </tr>
+
+    </table>
+
+   <div class="signature-section">
+    <div class="signature-item">
+        <p><strong>Signature of Project Guide</strong></p>
+        <br><br>
+    </div>
+    <div class="signature-item">
+        <p><strong>Recieved the Identity Card</strong></p>
+                <p>{{ student.idc }}</p>
+
+    </div>
+</div>
+    <br>
+
+<div class="signature-section2">
+    <p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Signature
+    <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CISF, ECIL Unit</strong></p>
+</div>
+
+    <div class="signature-div3">
+        <p><strong>To <br>In Charge <br> Corporate Learning Centre</strong></p>
+    </div>
+
+
+
+    <div class="button-container">
+        <button onclick="window.print()">Print</button>
+    </div>
+
+    <div class="edit-button">
+        <a href="/editnodues">Edit</a>
+    </div>
+
+</div>
+<div class="home-button-container">
+    <a href="/ophome" class="home-button">Home</a>
+</div>
+</body>
+</html>

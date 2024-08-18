@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Student Details</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+
+    <style>
+        body {
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 800px;
+            margin: 30px auto;
+        }
+
+        h3 {
+            color: #004080;
+            text-align: center;
+            margin: 0;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+.home-button-container {
+    position: absolute;
+    top: 10px; /* Adjust the top position as needed */
+    right: 10px; /* Adjust the right position as needed */
+}
+
+.home-button {
+    background-color: #004080;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    text-decoration: none;
+    font-size: 14px;
+    cursor: pointer;
+    display: inline-block;
+}
+
+.home-button:hover {
+    background-color: #003366;
+}
+
+@media print {
+    .home-button-container {
+        display: none;
+    }
+}
+        .form-group label {
+            font-weight: bold;
+        }
+
+        .form-group input {
+            padding: 8px;
+            width: 100%;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .submit-button {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .submit-button button {
+            background-color: #004080;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .submit-button button:hover {
+            background-color: #003366;
+        }
+
+        .student-details {
+            margin-top: 20px;
+            padding: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            background-color: #f9f9f9;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h3>View Student Project Work Details</h3>
+
+    <form method="POST" action="/viewinfojoin">
+        <div class="form-group">
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" required>
+        </div>
+        <div class="form-group">
+            <label for="phn_no">Phone Number:</label>
+            <input type="tel" id="phn_no" name="phn_no" pattern="[0-9]{10}" required>
+        </div>
+        <div class="submit-button">
+            <button type="submit">Retrieve Info</button>
+        </div>
+    </form>
+
+    {% if error %}
+        <p>{{ error }}</p>
+    {% endif %}
+</div>
+<div class="home-button-container">
+    <a href="/ophome" class="home-button">Home</a>
+</div>
+
+</body>
+</html>

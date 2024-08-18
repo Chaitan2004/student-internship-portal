@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        .message {
+            margin: 20px 0;
+            padding: 10px;
+            border-radius: 5px;
+            font-weight: bold;
+            text-transform: uppercase;
+            text-align: center;
+        }
+
+        .message.success {
+            color: green;
+        }
+
+        .message.error {
+            color: red;
+        }
+
+h2 {
+            color: #004080;
+        }
+        .description {
+            margin-bottom: 10px;
+        }
+        .description p {
+            margin: 0;
+            font-size:15px;
+
+    </style>
+</head>
+<body>
+    {% if message %}
+        <div class="message {{ msg_type }}">
+            {{ message }}
+        </div>
+    {% endif %}
+
+
+<h1><u>SIDEBAR LINK DESCRIPTIONS</u></h1>
+
+    <div class="description">
+        <h2>Create User</h2>
+        <p>The "Create User" link allows you to add new users to the system.<br> You can fill in details such as username, password, role, phone number, and email. This section is useful for managing user accounts and roles.</p>
+    </div>
+
+    <div class="description">
+        <h2>Operator Details</h2>
+        <p>The "Operator Details" link provides access to the information and details of operators within the system.<br> This may include their personal details, roles, and other relevant information.</p>
+    </div>
+
+    <div class="description">
+        <h2>Fetch Students Internship Data</h2>
+        <p>The "Fetch Students Internship Data" link allows you to retrieve and view internship data for students within a specified date range. <br>You can select start and end dates to filter the data accordingly.</p>
+    </div>
+
+    <div class="description">
+        <h2>Mentor Acceptance Forms</h2>
+        <p>The "Mentor Acceptance Forms" link enables you to fetch and view specific mentor acceptance forms based on a selected date. <br>This allows you to manage and review mentor engagements for specific time periods.</p>
+    </div>
+
+    <div class="description">
+        <h2>Certificates Not Collected</h2>
+        <p>The "Certificates Not Collected" link displays a list of students who have not yet collected their certificates.<br> This section helps in tracking and managing certificate distribution.</p>
+    </div>
+
+    <div class="description">
+        <h2>Internship Verification</h2>
+        <p>The "Internship Verification" link is used to verify if the student has done the internship at ECIL or not.<br> </p>
+    </div>
+</body>
+</html>

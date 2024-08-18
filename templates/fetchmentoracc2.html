@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fetch Mentor Acceptance</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        .container {
+            width: 80%;
+            margin: auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+
+        .home-button {
+            background-color: #004080;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            text-decoration: none;
+            display: inline-block;
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 14px;
+        }
+
+        .home-button:hover {
+            background-color: #003366;
+        }
+
+        h2 {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 24px;
+            font-weight: 600;
+        }
+
+        form {
+            margin-bottom: 20px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            font-weight: bold;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+
+        input[type="date"] {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+
+        button {
+            background-color: #004080;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        button:hover {
+            background-color: #003366;
+        }
+
+        p {
+            font-size: 14px;
+            margin: 10px 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            font-size: 14px;
+        }
+
+        th, td {
+            padding: 12px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+
+        th {
+            background-color: #004080;
+            color: white;
+            font-weight: 600;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        .download-link {
+            color: #004080;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .download-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="/adminhome" class="home-button">Home</a>
+        <h2>Select Date to Fetch Mentor Acceptance Data</h2>
+        <form action="/fetchmentoracc2" method="POST">
+            <label for="selectedDate">Select Date:</label>
+            <input type="date" id="selectedDate" name="selectedDate" required>
+            <button type="submit">Fetch Data</button>
+        </form>
+
+        {% if error %}
+            <p style="color: red;">{{ error }}</p>
+        {% endif %}
+
+        {% if message %}
+            <p style="color: blue;">{{ message }}</p>
+        {% endif %}
+
+        {% if data %}
+            <h3>Mentor Acceptance Data</h3>
+            <table>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Phone Number</th>
+                    <th>Guide Name</th>
+                    <th>Project Title</th>
+                    <th>Project Domain</th>
+                    <th>Date</th>
+                    <th>File</th>
+                </tr>
+                {% for item in data %}
+                <tr>
+                    <td>{{ item.id }}</td>
+                    <td>{{ item.name }}</td>
+                    <td>{{ item.phn_no }}</td>
+                    <td>{{ item.guide_name }}</td>
+                    <td>{{ item.project_title }}</td>
+                    <td>{{ item.project_domain }}</td>
+                    <td>{{ item.date_mentacc }}</td>
+                    <td>
+                        {% if item.file_data %}
+                            <a href="{{ url_for('download_file', student_id=item.id) }}" class="download-link">Download PDF</a>
+                        {% else %}
+                            No file available
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </table>
+        {% endif %}
+    </div>
+</body>
+</html>

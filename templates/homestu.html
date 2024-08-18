@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        .message {
+            margin: 20px 0;
+            padding: 10px;
+            border-radius: 5px;
+            font-weight: bold;
+            text-transform: uppercase;
+            text-align: center;
+        }
+
+        .message.success {
+            color: green;
+        }
+
+        .message.error {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    {% if message %}
+        <div class="message {{ msg_type }}">
+            {{ message }}
+        </div>
+    {% endif %}
+
+<h1><u>SIDEBAR LINK DESCRIPTIONS</u></h1>
+
+
+    <div class="description">
+        <h2>Mentor Acceptance Form</h2>
+        <p>The "Mentor Acceptance Form" link allows you to view and fill out form related to mentor acceptance.<br> This form is used to confirm and document the acceptance of mentors for the project.</p>
+    </div>
+
+    <div class="description">
+        <h2>Joining Form</h2>
+        <p>The "Joining Form" link provides access to form required for student or employee onboarding. <br>This form is used to collect necessary information from new joiners and facilitate their integration into the system.</p>
+    </div>
+
+    <div class="description">
+        <h2>No Dues Form</h2>
+        <p>The "No Dues Form" link allows you to access and fill out forms related to clearing dues.<br>This form is used to confirm that all financial or material obligations have been settled before leaving or concluding a program.</p>
+    </div>
+
+    <div class="description">
+        <h2>Generate Certificate</h2>
+        <p>The "Generate Certificate" link provides access to functionality for creating and issuing certificates.<br> This feature is used to generate certificates based on the information entered in other forms.</p>
+    </div>
+</body>
+</html>

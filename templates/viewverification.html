@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Student Certificate</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 30px;
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .search-container {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        .search-container label {
+            font-weight: bold;
+        }
+        .search-container input {
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        button {
+            background-color: #004080;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #003366;
+        }
+        .results {
+            margin-top: 20px;
+        }
+        .results table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .results th, .results td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+        .results th {
+            background-color: #004080;
+            color: white;
+        }
+        .results tbody tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        .results tbody tr:hover {
+            background-color: #f1f1f1;
+        }
+        .home-button-container {
+    position: absolute;
+    top: 10px; /* Adjust the top position as needed */
+    right: 10px; /* Adjust the right position as needed */
+}
+
+.home-button {
+    background-color: #004080;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    text-decoration: none;
+    font-size: 14px;
+    cursor: pointer;
+    display: inline-block;
+}
+
+.home-button:hover {
+    background-color: #003366;
+}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Search Student Certificate For Verification</h1>
+        <form class="search-container" method="POST" action="{{ url_for('search') }}">
+            <div>
+                <label for="ref_no">Reference Number : </label>&nbsp;&nbsp;
+                <input type="text" id="ref_no" name="ref_no">
+            </div>
+            <div>
+                <label for="name">Name : </label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <input type="text" id="name" name="name">
+            </div>
+            <div>
+                <label for="phone_number">Phone Number : </label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <input type="text" id="phone_number" name="phone_number">
+            </div>
+            <button type="submit">Search</button>
+        </form>
+        <div class="results">
+            {% if students %}
+                <h2>Student Details</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Ref No.</th>
+                            <th>Phone Number</th>
+                            <th>Guide Name</th>
+                            <th>Project Title</th>
+                            <th>Duration</th>
+                            <th>Certificate</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for student in students %}
+                        <tr>
+                            <td>{{ student.name }}</td>
+                            <td>{{ student.ref_no }}</td>
+                            <td>{{ student.phn_no }}</td>
+                            <td>{{ student.guide_name }}</td>
+                            <td>{{ student.project_title }}</td>
+                            <td><strong>{{ student.training_from_date }}</strong> to <strong>{{ student.training_to_date }}</strong></td>
+                            <td>
+                                {% if student.mark == 'yes' %}
+                                    <a href="{{ url_for('certificate2', student_id=student.id) }}">View Certificate</a>
+                                {% endif %}
+                            </td>
+
+
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% endif %}
+        </div>
+    </div>
+
+<div class="home-button-container">
+    <a href="/adminhome" class="home-button">Home</a>
+</div>
+</body>
+</html>

@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Project Work Details Form</title>
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            margin: 20;
+            padding: 20px;
+            background-color: #f4f4f4;
+            font-size: 14px;
+        }
+
+        .container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            max-width: 800px;
+            margin: 10px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .header img {
+            position: absolute;
+            left: 5px;
+            top: 5px;
+            width: 60px; /* Adjust the width as needed */
+            height: auto;
+        }
+
+        .header h1 {
+            margin: 5px 0;
+            font-size: 15px;
+            text-transform: uppercase;
+        }
+
+        .header p {
+            margin: 0;
+            font-size: 14px;
+        }
+
+        th, td {
+            padding: 5px;
+            vertical-align: top;
+        }
+
+        .cldc{
+            text-align: left;
+        }
+
+        .ann{
+            text-align: right;
+        }
+
+        .form-content {
+            font-size: 14px;
+        }
+
+        .form-content p {
+            margin: 5px 0;
+            font-size: 14px;
+        }
+
+        .form-content label {
+            display: block;
+            margin: 10px 0;
+        }
+        .signature-section2 {
+            margin-top: 10px;
+        }
+
+        .signature-section {
+            margin-top: 40px;
+        }
+        .signature-section2 p {
+            margin-right: 20px;
+            padding-right: 40px;
+            text-align: right;
+        }
+
+        .signature-section p {
+            margin-right: 20px;
+            padding-right: 40px;
+            text-align: right;
+        }
+
+        .signature p{
+            text-align: right;
+        }
+
+        .footer p {
+            margin: 5px 0;
+        }
+
+        .address-input {
+            width: 100%;
+            height: 50px;
+            resize: none;
+            border:none
+        }
+
+        .button-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .button-container button {
+            background-color: #004080;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .button-container button:hover {
+            background-color: #003366;
+        }
+        @media print {
+            .button-container, .edit-button {
+                display: none;
+            }
+        }
+
+        @media print {
+            .print-table {
+                margin-top: -20px; /* Adjust the value to move the table up or down */
+            }
+        }
+        .home-button-container {
+    position: absolute;
+    top: 10px; /* Adjust the top position as needed */
+    right: 10px; /* Adjust the right position as needed */
+}
+
+.home-button {
+    background-color: #004080;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    text-decoration: none;
+    font-size: 14px;
+    cursor: pointer;
+    display: inline-block;
+}
+
+.home-button:hover {
+    background-color: #003366;
+}
+
+@media print {
+    .home-button-container {
+        display: none;
+    }
+}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <img src="https://media.licdn.com/dms/image/C560BAQGq-I3gfKxgOA/company-logo_200_200/0/1630652613712?e=2147483647&v=beta&t=iFo12mEhAA58AW9hvsbOw442ZbrANZCuO1JdgdYW4K8" alt="ECIL Logo">
+            <h1>ELECTRONICS CORPORATION OF INDIA LIMITED</h1>
+            <h1>HUMAN RESOURCE</h1>
+            <h1>(CORPORATE LEARNING AND DEVELOPMENT CENTRE)</h1>
+            <h1>HYDERABAD - 500 062</h1>
+            <h1 class="cldc">ECIL: HR: CLDC: ST:</h1>
+            <div class="ann"><strong>Date:</strong>_____________</div>
+            <p><strong>Sub:</strong> - Student Project Work Details in ECIL:<br/><b>* * * *</b></p>
+        </div>
+
+        <div class="form-content">
+            <table>
+                <tr>
+                    <td>1. Student Name</td>
+                    <td>:</td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>2. Date of Birth</td>
+                    <td>:</td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>3. S/o, D/o, W/o Name with Office Address, Designation, Phone No.</td>
+                    <td>:</td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>4. In case of EC-Employee children Mention Div-Sec-Employee code no.</td>
+                    <td>:</td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>5. Course studying at present, Branch & Year of study </td>
+                    <td>:</td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>6. College Name and Address Where studying </td>
+                    <td>:</td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>7. Address for communication With Phone No. and Email ID </td>
+                    <td>:</td>
+                    <td><strong>Permanent:</strong><textarea class="address-input"></textarea><br></td>
+                    <td><strong>Local:</strong> <textarea class="address-input"></textarea></td>
+                </tr>
+                <tr>
+                    <td>8. Group where the student would take Project Work related Training </td>
+                    <td>:</td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>9. Permitted Period of Training </td>
+                    <td>:</td>
+                    <td><strong>From ..........................</strong></td>
+                    <td><strong>To ..........................</strong></td>
+                </tr>
+                <tr>
+                    <td>10. Name of the Bank, DD No., Date & Amount </td>
+                    <td>:</td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </table>
+            <div class="signature-section2">
+                <p>Signature of the Student</p><br/>
+            </div>
+                <p>The Project Guide is requested to provide necessary guidance to the student and help him/her to complete project work within the allotted time. <strong>Project Guide should not issue any Certificate or Testimonial to the Student.</strong></p>
+                <p>CLDC will issue a Certificate to the Student after completing necessary formalities at the end of his/her project work.<strong>No Certificate will be issued if the duration of actual training is less than 4 weeks.</strong> </p>
+            </div><br/>
+        <div class="signature">
+            <p><strong>Manager-HR (CLDC)</strong></p>
+        </div>
+        <div class="footer">
+            <p>To<br/><strong>Mr/Ms.</strong> ______________________________</p>
+            <br/>
+            <table class="print-table">
+                <tr>
+                    <td>Cc to: Asst. Commandant CISF, ECIL Unit</td>
+                    <td>:</td>
+                    <td>with a request to issue a temporary card to the Student for the above mentioned duration</td>
+                </tr>
+            </table>
+        </div>
+        <div class="button-container">
+            <button onclick="window.print()">Print</button>
+        </div>
+    </div>
+<div class="home-button-container">
+    <a href="/ophome" class="home-button">Home</a>
+</div>
+</body>
+</html>
