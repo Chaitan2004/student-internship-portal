@@ -1,28 +1,26 @@
-from flask import Flask, render_template, request, redirect, url_for, session, send_file, flash, jsonify, abort
+from flask import Flask, render_template, request, redirect, url_for, session, send_file,jsonify, abort
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime, date
 import os
-import webbrowser
-import threading
 from io import BytesIO
-
+from flask_cors import CORS
 import time
 import random
 
-import uuid
-
 app = Flask(__name__)
-app.config['SECRET_KEY'] = os.urandom(24)  # Secret key for sessions
+app.config['SECRET_KEY'] = os.urandom(24)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:@localhost/studentinternportal'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # 16 MB limit
+app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
+CORS(app)  # Enable CORS for all routes
+
 
 
 db = SQLAlchemy(app)
 
 
 class StudentData(db.Model):
-    __tablename__ = 'student_data'  # Ensure this matches the table name in your MySQL database
+    __tablename__ = 'student_data'
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(255), nullable=True)
@@ -62,7 +60,7 @@ class StudentData(db.Model):
     file_data = db.Column(db.LargeBinary, nullable=True)
     certificate = db.Column(db.String(255), nullable=True)
     guide_name = db.Column(db.String(255), nullable=True)
-    submission_id = db.Column(db.String(36), nullable=False)  # New column to track submission groups
+    submission_id = db.Column(db.String(36), nullable=False)
     joiningfile = db.Column(db.LargeBinary, nullable=True)
     dateofjoining= db.Column(db.Date, nullable=True)
     nodues_file= db.Column(db.LargeBinary, nullable=True)
@@ -310,7 +308,7 @@ def operator_details():
     if 'user_id' not in session:
         return redirect(url_for('index', error="SESSION TIMED OUT"))
 
-    operators = Users.query.filter_by(type='operator').all()  # Adjust the filter as necessary
+    operators = Users.query.filter_by(type='operator').all()
     return render_template('operator_details.html', operators=operators)
 
 @app.route('/submitmen', methods=['POST'])
@@ -970,7 +968,6 @@ def student_data():
         from_date = request.form['studentFromDate']
         to_date = request.form['studentToDate']
 
-        # Query the database for student data based on the date range
         students = StudentData.query.filter(
             StudentData.training_from_date >= from_date,
             StudentData.training_to_date <= to_date
