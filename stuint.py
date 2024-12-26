@@ -6,10 +6,12 @@ from io import BytesIO
 from flask_cors import CORS
 import time
 import random
+import webbrowser
+from threading import Timer
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.urandom(24)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:@localhost/studentinternportal'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:2612@localhost/studentinternportal'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
 CORS(app)  # Enable CORS for all routes
@@ -1027,8 +1029,10 @@ def certificate2(student_id):
     else:
         return "Student not found", 404
 
-
-
+def open_browser():
+    webbrowser.open_new("http://127.0.0.1:5000/")
+    
 if __name__ == '__main__':
-
+    # Open the browser in a separate thread after 1 second
+    Timer(1, open_browser).start()
     app.run(debug=True)
