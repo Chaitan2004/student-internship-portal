@@ -20,3 +20,6 @@ If you downloaded the code from Github then follow these steps.
   1.	Open a new terminal in the folder where the stuint.py file is located.
   2.	Run “stuint.py” file by using this command in the terminal.
   >> python stuint.py
+
+
+**Please refer to the User and Installation Manual for additional clarification and guidance.**
