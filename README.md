@@ -1,4 +1,4 @@
-# **Internship Monitoring Software for ECIL.co**
+# **Internship Monitoring Software for ECIL**
 
 The SIP Software is a specialized database application for managing student internship details at ECIL. It securely stores joining forms, mentor acceptance forms, and facilitates the generation of certificates and due forms. Designed for simplicity and reliability, it ensures efficient data handling and documentation.
 
