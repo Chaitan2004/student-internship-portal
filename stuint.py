@@ -817,28 +817,29 @@ def submit_nodues():
         # Assuming `project_details` and `idc` are form fields, not files
         if student:
             print("found")
-        # Save uploaded PDF file if it exists
+
+            # Save uploaded PDF file if it exists
             if file and file.filename.endswith('.pdf'):
                 file_data = file.read()
             else:
                 file_data = None
 
-        student.ref_no = ref_no
-        student.conduct = conduct
-        student.attendance = attendance
-        student.projectdetails = project_details
-        student.idc = idc
-        student.nodues_file = file_data
+            # Update student data
+            student.ref_no = ref_no
+            student.conduct = conduct
+            student.attendance = attendance
+            student.projectdetails = project_details
+            student.idc = idc
+            student.nodues_file = file_data
 
-        db.session.commit()
+            # Commit changes to the database
+            db.session.commit()
 
-        # Fetch the newly added student's details from the database
-        if not student:
-            return "Error: Student data not found."
-
-        # Render the template with the student's details
-        return render_template('viewnodues.html', student=student,)
-
+            # Render the template with the student's details
+            return render_template('viewnodues.html', student=student)
+        else:
+            error_message = "Student not found"
+            return redirect(url_for('ophome', message=error_message, msg_type='error'))
 
 @app.route('/editnodues')
 def editnodues():
@@ -873,7 +874,7 @@ def submit_nodues2():
             else:
                 file_data = None
 
-            # Update the student's details
+            # Update the student's details with fallback to current values if no new input
             student.ref_no = ref_no if ref_no else student.ref_no
             student.conduct = conduct if conduct else student.conduct
             student.attendance = attendance if attendance else student.attendance
@@ -881,12 +882,14 @@ def submit_nodues2():
             student.idc = idc if idc else student.idc
             student.nodues_file = file_data if file_data else student.nodues_file
 
+            # Commit changes to the database
             db.session.commit()
-        else:
-            return "Error: Student data not found."
 
-        # Render the template with the student's details
-        return render_template('viewnodues.html', student=student)
+            # Return a response or render a template
+            return render_template('viewnodues.html', student=student)
+        else:
+            error_message = "Student not found"
+            return redirect(url_for('ophome', message=error_message, msg_type='error'))
 
 
 @app.route('/fetchmentoracc', methods=['GET', 'POST'])
