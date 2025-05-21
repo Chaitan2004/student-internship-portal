@@ -15,7 +15,13 @@ import base64
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.urandom(24)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:@localhost/studentinternportal'
+
+user = os.environ.get('MYSQL_USER', 'root')
+password = os.environ.get('MYSQL_PASSWORD', '')
+host = os.environ.get('MYSQL_HOST', 'db')  # default to 'db'
+database = os.environ.get('MYSQL_DATABASE', 'studentinternportal')
+
+app.config['SQLALCHEMY_DATABASE_URI'] = f'mysql+mysqlconnector://{user}:{password}@{host}/{database}'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
 CORS(app)  # Enable CORS for all routes
