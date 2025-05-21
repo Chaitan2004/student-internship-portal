@@ -117,6 +117,62 @@
             <button type="submit">Retrieve Info And Generate</button>
         </div>
     </form>
+<div class="container">
+        <h1>Search Student Certificate For Verification</h1>
+        <form class="search-container" method="POST" action="{{ url_for('search2') }}">
+            <div>
+                <label for="ref_no">Reference Number : </label>&nbsp;&nbsp;
+                <input type="text" id="ref_no" name="ref_no">
+            </div><br>
+            <div>
+                <label for="name2">Name : </label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <input type="text" id="name2" name="name">
+            </div><br>
+            <div>
+                <label for="phone_number">Phone Number : </label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <input type="text" id="phone_number" name="phone_number">
+            </div><br>
+            <button type="submit">Search</button>
+        </form>
+        <div class="results">
+            {% if students %}
+                <h2>Student Details</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Ref No.</th>
+                            <th>Phone Number</th>
+                            <th>Guide Name</th>
+                            <th>Project Title</th>
+                            <th>Duration</th>
+                            <th>Certificate</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for student in students %}
+                        <tr>
+                            <td>{{ student.name }}</td>
+                            <td>{{ student.ref_no }}</td>
+                            <td>{{ student.phn_no }}</td>
+                            <td>{{ student.guide_name }}</td>
+                            <td>{{ student.project_title }}</td>
+                            <td><strong>{{ student.training_from_date }}</strong> to <strong>{{ student.training_to_date }}</strong></td>
+                            <td>
+                                {% if student.mark == 'yes' %}
+                                    <a href="{{ url_for('certificate2', student_id=student.id) }}">View Certificate</a>
+                                {% endif %}
+                            </td>
+
+
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% endif %}
+        </div>
+    </div>
 
     {% if error %}
         <p>{{ error }}</p>

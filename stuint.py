@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for, session, send_file,jsonify, abort
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy.inspection import inspect
 from datetime import datetime, date
 import os
 from io import BytesIO
@@ -8,10 +9,13 @@ import time
 import random
 import webbrowser
 from threading import Timer
+import pandas as pd
+from flask import send_file
+import base64
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.urandom(24)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:2612@localhost/studentinternportal'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:@localhost/studentinternportal'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
 CORS(app)  # Enable CORS for all routes
@@ -71,6 +75,9 @@ class StudentData(db.Model):
     idc=db.Column(db.String(255), nullable=True)
     gender=db.Column(db.String(100), nullable=True)
     mark=db.Column(db.String(100), nullable=True)
+    photo = db.Column(db.LargeBinary)  # Store image binary data
+    certificatecollectiondate = db.Column(db.Date)
+
 
 
 
@@ -404,11 +411,15 @@ def get_student_details():
 
     session['phoneno'] = phoneno
 
-    # Fetch the student based on student ID and submission date
-    student = StudentData.query.filter(
+    query = StudentData.query.filter(
         StudentData.name == student_id,
-        StudentData.date_mentacc == submission_date
-    ).first()
+        StudentData.phn_no == phoneno
+    )
+
+    if submission_date:  # check if submission_date is not None or not empty
+        query = query.filter(StudentData.date_mentacc == submission_date)
+
+    student = query.first()
 
     if student:
         print(f"Student found: {student.name}")
@@ -479,6 +490,7 @@ def save_student():
         file = request.files.get('joining_file')
         employee_code_no=request.files.get('employee_code_no')
         gender= request.form.get('gender')
+        joiningdate = request.form.get('joiningdate')
 
 
 
@@ -515,7 +527,7 @@ def save_student():
             student_record.designation_hindi = designation_hindi or student_record.designation_hindi
             student_record.incharge_english = incharge_english or student_record.incharge_english
             student_record.incharge_hindi = incharge_hindi or student_record.incharge_hindi
-            student_record.dateofjoining = datetime.now().strftime("%d-%m-%Y")
+            student_record.dateofjoining = joiningdate or student_record.dateofjoining
             student_record.employee_code_no = employee_code_no or student_record.employee_code_no
             student_record.gender= gender or student_record.gender
 
@@ -559,7 +571,7 @@ def save_student():
                 incharge_english=incharge_english,
                 incharge_hindi=incharge_hindi,
                 joiningfile=file.read() if file else None,
-                dateofjoining=datetime.now().strftime("%d-%m-%Y"),
+                dateofjoining=joiningdate,
                 employee_code_no= employee_code_no,
                 gender= gender
 
@@ -911,22 +923,31 @@ def fetchmentoracc():
     return render_template('fetchmentoracc.html', selected_date=selected_date, data=data, error=error, message=message)
 
 @app.route('/fetchmentoracc2', methods=['GET', 'POST'])
-def fetchmentoracc2():
-    selected_date = None
-    data = None
+def fetch_mentor_acc():
+    data = []
     error = None
     message = None
 
     if request.method == 'POST':
         selected_date = request.form.get('selectedDate')
-        if not selected_date:
-            error = 'Please select a date'
-        else:
+        student_name = request.form.get('studentName')
+
+        # Case 1: Filter by date
+        if selected_date:
             data = StudentData.query.filter_by(date_mentacc=selected_date).all()
             if not data:
                 message = 'No data found for the selected date'
 
-    return render_template('fetchmentoracc2.html', selected_date=selected_date, data=data, error=error, message=message)
+        # Case 2: Filter by partial student name
+        elif student_name:
+            data = StudentData.query.filter(StudentData.name.ilike(f"%{student_name}%")).all()
+            if not data:
+                message = 'No student found with the given name'
+
+        else:
+            error = 'Please enter a name or select a date.'
+
+    return render_template('fetchmentoracc2.html', data=data, error=error, message=message)
 
 @app.route('/download/<int:student_id>', methods=['GET'])
 def download_file(student_id):
@@ -955,6 +976,7 @@ def update_collected_status():
         student = StudentData.query.filter_by(name= name).first()
         if student:
             student.mark = collected
+            student.certificatecollectiondate = date.today()
             db.session.commit()
             return jsonify({"status": "success"}), 200
         else:
@@ -964,21 +986,74 @@ def update_collected_status():
 def certificates_not_collected():
     students = StudentData.query.filter_by(mark='no').all()
     return render_template('certificatesnotcollected.html', students=students)
-
+from flask import session
 
 @app.route('/student_data', methods=['GET', 'POST'])
 def student_data():
     students = []
-    if request.method == 'POST':
-        from_date = request.form['studentFromDate']
-        to_date = request.form['studentToDate']
 
-        students = StudentData.query.filter(
-            StudentData.training_from_date >= from_date,
-            StudentData.training_to_date <= to_date
-        ).all()
+    from_date = request.form.get('studentFromDate')
+    to_date = request.form.get('studentToDate')
+    student_name = request.form.get('studentName')
+
+    # Only refetch if not exporting
+    if request.method == 'POST' and 'export' not in request.form:
+        ids = []
+
+        if from_date and to_date:
+            filtered_by_date = StudentData.query.filter(
+                StudentData.training_from_date >= from_date,
+                StudentData.training_to_date <= to_date
+            ).all()
+            for s in filtered_by_date:
+                students.append(s)
+                ids.append(s.id)
+
+        if student_name:
+            filtered_by_name = StudentData.query.filter(
+                StudentData.name.ilike(f'%{student_name}%')
+            ).all()
+            for s in filtered_by_name:
+                students.append(s)
+                ids.append(s.id)
+
+        session['student_ids'] = ids  # Save to session
+
+    elif request.method == 'POST' and 'export' in request.form:
+        ids = session.get('student_ids', [])
+        students = StudentData.query.filter(StudentData.id.in_(ids)).all()
+
+    # Add duration
+    for student in students:
+        if student.training_from_date and student.training_to_date:
+            duration = (student.training_to_date - student.training_from_date).days // 7
+            student.duration_weeks = duration
+
+    # Export logic
+    if request.method == 'POST' and 'export' in request.form:
+        data = [{
+            'Name': student.name,
+            'Phone Number': student.phn_no,
+            'Guide Name': student.guide_name,
+            'Project Title': student.project_title,
+            'Training Period': f"{student.training_from_date} to {student.training_to_date}",
+        } for student in students]
+
+        df = pd.DataFrame(data)
+        output = BytesIO()
+        with pd.ExcelWriter(output, engine='openpyxl') as writer:
+            df.to_excel(writer, index=False, sheet_name='Student Data')
+        output.seek(0)
+
+        return send_file(
+            output,
+            as_attachment=True,
+            download_name="student_data.xlsx",
+            mimetype="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+        )
 
     return render_template('stuinterndetails.html', students=students)
+
 @app.route('/stu2')
 def stu2():
     return render_template('stu2.html')
@@ -1016,25 +1091,127 @@ def certificate2(student_id):
 
     student = StudentData.query.get(student_id)
     if student:
-        # Logic to generate and display the certificate
-        return render_template('certificate2.html',student_name=student.name,
-                               guardian_name=student.guardian_name,
-                               college_name=student.institute_name,
-                               course=student.course,
-                               start_date=student.training_from_date,
-                               end_date=student.training_to_date,
-                               title=student.project_title,
-                               division=student.project_group,
-                               today_date=date.today().strftime('%B %d, %Y'),
-                               ref_no= student.ref_no,
-                               branch= student.branch,
-                               gender= student.gender)
+        if student.photo:
+            encoded_photo = base64.b64encode(student.photo).decode('utf-8')
+            photo_data_url = f"data:image/jpeg;base64,{encoded_photo}"  # or image/png if it's PNG
+
+            # Logic to generate and display the certificate
+            return render_template('certificate2.html',student_name=student.name,
+                                   guardian_name=student.guardian_name,
+                                   college_name=student.institute_name,
+                                   course=student.course,
+                                   start_date=student.training_from_date,
+                                   end_date=student.training_to_date,
+                                   title=student.project_title,
+                                   division=student.project_group,
+                                   today_date=student.certificatecollectiondate,
+                                   ref_no= student.ref_no,
+                                   branch= student.branch,
+                                   photo= photo_data_url,
+                                   gender= student.gender)
+        else:
+            return render_template('certificate2.html', student_name=student.name,
+                                   guardian_name=student.guardian_name,
+                                   college_name=student.institute_name,
+                                   course=student.course,
+                                   start_date=student.training_from_date,
+                                   end_date=student.training_to_date,
+                                   title=student.project_title,
+                                   division=student.project_group,
+                                   today_date=student.certificatecollectiondate,
+                                   ref_no=student.ref_no,
+                                   branch=student.branch,
+                                   photo=None,
+                                   gender=student.gender)
     else:
         return "Student not found", 404
 
 def open_browser():
     webbrowser.open_new("http://127.0.0.1:5000/")
-    
+
+@app.route('/export_all_students', methods=['GET'])
+def export_all_students():
+    students = StudentData.query.all()
+
+    # Get all column names dynamically
+    columns = [c.key for c in inspect(StudentData).mapper.column_attrs]
+
+    # Convert to list of dicts
+    data = []
+    for student in students:
+        row = {}
+        for col in columns:
+            val = getattr(student, col)
+            row[col] = str(val) if val is not None else ''
+        data.append(row)
+
+    # Create Excel file in memory
+    df = pd.DataFrame(data)
+    output = BytesIO()
+    with pd.ExcelWriter(output, engine='openpyxl') as writer:
+        df.to_excel(writer, index=False, sheet_name='All Students')
+    output.seek(0)
+
+    return send_file(
+        output,
+        as_attachment=True,
+        download_name="all_student_data.xlsx",
+        mimetype="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+    )
+
+@app.route('/upload_photo', methods=['POST'])
+def upload_photo():
+    # Get the student's name from the session
+    name = session.get('certificate_name')
+
+    if not name:
+        return 'Student name not found in session', 400  # If the name is not in the session
+
+    # Ensure that a photo is uploaded
+    if 'photo' not in request.files:
+        return 'No photo uploaded', 400
+
+    file = request.files['photo']
+
+    if file:
+        # Optional: Validate file type if needed
+        if file and file.filename.split('.')[-1].lower() not in ['png', 'jpeg', 'jpg']:
+            return 'Invalid file type. Please upload a PNG or JPEG image.', 400
+
+        # Find the student by name from the session
+        student = StudentData.query.filter_by(name=name).first()  # Use the session name to find the student
+
+        if student:
+            # Save the photo as binary in the database
+            student.photo = file.read()  # Store the image data in the 'photo' column (make sure it's defined in your model)
+            db.session.commit()  # Save the changes to the database
+            return 'Photo saved successfully', 200
+        else:
+            return 'Student not found', 404
+    return 'Upload failed', 400
+
+@app.route('/search2', methods=['GET', 'POST'])
+def search2():
+    students = None
+    if request.method == 'POST':
+        ref_no = request.form.get('ref_no')
+        name = request.form.get('name')
+        phone_number = request.form.get('phone_number')
+
+        query = db.session.query(StudentData)
+
+        if ref_no:
+            query = query.filter(StudentData.ref_no == ref_no)
+        if name:
+            query = query.filter(StudentData.name.ilike(f'%{name}%'))
+        if phone_number:
+            query = query.filter(StudentData.phn_no == phone_number)
+
+        students = query.all()
+
+    return render_template('viewverification2.html', students=students)
+
+
 if __name__ == '__main__':
     # Open the browser in a separate thread after 1 second
     Timer(1, open_browser).start()

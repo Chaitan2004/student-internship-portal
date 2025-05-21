@@ -40,10 +40,16 @@
             font-weight: bold;
         }
 
+        .required::after {
+            content: " *";
+            color: red;
+        }
+
         .file-upload input[type="text"],
         .file-upload input[type="email"],
         .file-upload input[type="tel"],
-        .file-upload input[type="password"] {
+        .file-upload input[type="password"],
+        .file-upload select {
             padding: 10px;
             border: 1px solid #ccc;
             border-radius: 4px;
@@ -74,19 +80,19 @@
 
         <div class="file-upload">
             <form action="/createuser" method="post">
-                <label for="username">Username:</label>
+                <label for="username" class="required">Username:</label>
                 <input type="text" id="username" name="username" required>
 
                 <label for="phone">Phone Number:</label>
-                <input type="text" id="phone" name="phone" required>
+                <input type="text" id="phone" name="phone">
 
-                <label for="email">Email:</label>
+                <label for="email" class="required">Email:</label>
                 <input type="email" id="email" name="email" required>
 
-                <label for="password">Password:</label>
+                <label for="password" class="required">Password:</label>
                 <input type="password" id="password" name="password" required>
 
-                <label for="role">Role:</label>
+                <label for="role" class="required">Role:</label>
                 <select id="role" name="role" required>
                     <option value="admin">Admin</option>
                     <option value="operator">Operator</option>

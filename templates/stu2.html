@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Student Internship Data</title>
-<style>
+    <style>
         .container {
             background-color: white;
             padding: 30px;
@@ -31,7 +31,7 @@
             margin-bottom: 20px;
         }
 
-                .home-button {
+        .home-button {
             background-color: #004080;
             color: white;
             padding: 10px 15px;
@@ -65,7 +65,7 @@
             display: block;
             margin-bottom: 5px;
         }
-        input[type="date"] {
+        input[type="date"], input[type="text"] {
             width: 100%;
             padding: 8px;
             margin-bottom: 10px;
@@ -108,8 +108,10 @@
     <div class="logo-time">
         <div id="dateTime"></div>
     </div>
-    <h2>Select Date</h2>
-    <form id="dataForm" action="{{ url_for('student_data') }}" method="POST">
+    <h2>Select Date or Search by Name</h2>
+
+    <!-- Date Range Form -->
+    <form id="dateForm" action="{{ url_for('student_data') }}" method="POST">
         <div class="date-container">
             <div>
                 <label for="studentFromDate">From:</label>
@@ -120,7 +122,14 @@
                 <input type="date" id="studentToDate" name="studentToDate" required>
             </div>
         </div>
-        <button type="submit">Fetch Student Data</button>
+        <button type="submit">Fetch Student Data by Date Range</button>
+    </form>
+
+    <!-- Name Search Form -->
+    <form id="nameForm" action="{{ url_for('student_data') }}" method="POST" style="margin-top: 20px;">
+        <label for="studentName">Search by Name:</label>
+        <input type="text" id="studentName" name="studentName" placeholder="Enter student name" required>
+        <button type="submit">Fetch Student Data by Name</button>
     </form>
 </body>
 </html>

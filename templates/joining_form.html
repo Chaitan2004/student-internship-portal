@@ -4,84 +4,86 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Student Project Work Details Form</title>
-   <style>
+    <style>
+        .container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.2);
+            max-width: 800px;
+            margin: 0 auto;
+        }
 
-    .container {
-        background-color: white;
-        padding: 20px;
-        border-radius: 5px;
-        box-shadow: 0 0 10px rgba(0,0,0,0.2);
-        max-width: 800px;
-        margin: 0 auto;
-    }
+        .header, h4 {
+            color: #004080;
+            padding: 0;
+        }
 
-    .header, h4 {
-        color: #004080;
-        padding: 0;
-    }
+        .form-group {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
 
-    .form-group {
-        display: flex; /* Align items horizontally */
-        align-items: center; /* Vertically center */
-        margin-bottom: 10px; /* Adjust spacing */
-    }
+        .form-group label {
+            width: 150px;
+            margin-right: 10px;
+        }
 
-    .form-group label {
-        width: 150px; /* Fixed width for labels */
-        margin-right: 10px; /* Space between label and input */
-    }
+        .form-group input, .form-group textarea, .form-group select {
+            width: auto;
+            flex-grow: 1;
+            padding: 8px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
 
-    .form-group input, .form-group textarea {
-        width: auto; /* Adjust input and textarea width */
-        flex-grow: 1; /* Allow to take available space */
-        padding: 8px; /* Padding for inputs */
-        box-sizing: border-box; /* Include padding in width */
-        border: 1px solid #ccc; /* Border style */
-        border-radius: 4px; /* Rounded corners */
-    }
+        .form-group textarea {
+            resize: vertical;
+        }
 
-    .form-group textarea {
-        resize: vertical; /* Allow vertical resizing */
-    }
+        .submit-button {
+            text-align: center;
+            margin-top: 20px;
+        }
 
-    .submit-button {
-        text-align: center;
-        margin-top: 20px;
-    }
+        .submit-button button, .submit-button a {
+            background-color: #004080;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+            margin: 0 5px;
+        }
 
-    .submit-button button, .submit-button a {
-        background-color: #004080;
-        color: white;
-        padding: 10px 20px;
-        border: none;
-        border-radius: 4px;
-        cursor: pointer;
-        text-decoration: none;
-        margin: 0 5px; /* Space between buttons */
-    }
+        .submit-button button:hover, .submit-button a:hover {
+            background-color: #003366;
+        }
 
-    .submit-button button:hover, .submit-button a:hover {
-        background-color: #003366;
-    }
+        .manager {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 20px;
+        }
 
-    .manager {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-top: 20px;
-    }
+        .manager select {
+            margin-right: 10px;
+            padding: 5px;
+        }
 
-    .manager select {
-        margin-right: 10px;
-        padding: 5px;
-    }
+        table {
+            width: 100%;
+        }
 
-    /* Additional styling for table if needed */
-    table {
-        width: 100%; /* Ensure table takes full width */
-    }
-</style>
-
+        .required-star {
+            color: red;
+            margin-left: 4px;
+        }
+    </style>
 </head>
 <body>
 
@@ -93,23 +95,28 @@
     <form method="POST" action="/save-student" enctype="multipart/form-data">
         <div class="inline-inputs">
             <div class="inline-input form-group">
-                <label for="name">1. Student Name:</label>
+                <label for="joiningdate">Select the joining date:<span class="required-star">*</span></label>
+                <input type="date" id="joiningdate" name="joiningdate" required>
+            </div>
+        <div class="inline-inputs">
+            <div class="inline-input form-group">
+                <label for="name">1. Student Name:<span class="required-star">*</span></label>
                 <input type="text" id="name" name="name" required>
             </div>
             <div class="inline-input form-group">
-                <label for="dob">2. Date of Birth:</label>
+                <label for="dob">2. Date of Birth:<span class="required-star">*</span></label>
                 <input type="date" id="dob" name="dob" required>
             </div>
             <div class="inline-input form-group">
-                <label for="guardian_name">3. Guardian Name:</label>
+                <label for="guardian_name">3. Guardian Name:<span class="required-star">*</span></label>
                 <input type="text" id="guardian_name" name="guardian_name" required>
             </div>
             <div class="inline-input form-group">
                 <label for="guardian_designation">4. Guardian Designation:</label>
-                <input type="text" id="guardian_designation" name="guardian_designation" required>
+                <input type="text" id="guardian_designation" name="guardian_designation">
             </div>
             <div class="inline-input form-group">
-                <label for="guardian_phn_no">5. Guardian Phone no:</label>
+                <label for="guardian_phn_no">5. Guardian Phone no:<span class="required-star">*</span></label>
                 <input type="tel" id="guardian_phn_no" name="guardian_phn_no" pattern="[0-9]{10}" required>
             </div>
             <div class="inline-input form-group">
@@ -117,52 +124,52 @@
                 <input type="text" id="employee_code_no" name="employee_code_no">
             </div>
             <div class="inline-input form-group">
-                <label for="gender">Gender:</label>
+                <label for="gender">Gender:<span class="required-star">*</span></label>
                 <select id="gender" name="gender" required>
                     <option value="male">Male</option>
                     <option value="female">Female</option>
                 </select>
-                </div>
+            </div>
         </div>
 
         <h4>7. Institute details</h4>
         <div class="inline-inputs">
             <div class="inline-input form-group">
-                <label for="course">Course:</label>
+                <label for="course">Course:<span class="required-star">*</span></label>
                 <input type="text" id="course" name="course" required>
             </div>
             <div class="inline-input form-group">
-                <label for="branch">Branch:</label>
+                <label for="branch">Branch:<span class="required-star">*</span></label>
                 <input type="text" id="branch" name="branch" required>
             </div>
             <div class="inline-input form-group">
-                <label for="year_of_study">Year of Study:</label>
+                <label for="year_of_study">Year of Study/ Semester:<span class="required-star">*</span></label>
                 <input type="text" id="year_of_study" name="year_of_study" required>
             </div>
             <div class="inline-input form-group">
-                <label for="institute_name">College Name/ Institute Name:</label>
+                <label for="institute_name">College Name/ Institute Name:<span class="required-star">*</span></label>
                 <input type="text" id="institute_name" name="institute_name" required>
             </div>
         </div>
 
         <div class="inline-inputs">
             <div class="inline-input form-group">
-                <label for="institute_address">College Address:</label>
+                <label for="institute_address">College Address:<span class="required-star">*</span></label>
                 <textarea id="institute_address" name="institute_address" rows="3" required></textarea>
             </div>
             <div class="inline-input form-group">
-                <label for="local_address">Local Address for communication:</label>
+                <label for="local_address">Local Address for communication:<span class="required-star">*</span></label>
                 <textarea id="local_address" name="local_address" rows="3" required></textarea>
             </div>
             <div class="inline-input form-group">
-                <label for="permanent_address">Permanent Address for communication:</label>
+                <label for="permanent_address">Permanent Address for communication:<span class="required-star">*</span></label>
                 <textarea id="permanent_address" name="permanent_address" rows="3" required></textarea>
             </div>
         </div>
 
         <div class="inline-inputs">
             <div class="inline-input form-group">
-                <label for="phn_no">Phone no:</label>
+                <label for="phn_no">Phone no:<span class="required-star">*</span></label>
                 <input type="tel" id="phn_no" name="phn_no" pattern="[0-9]{10}" required>
             </div>
             <div class="inline-input form-group">
@@ -170,7 +177,7 @@
                 <input type="tel" id="alternate_phn_no" name="alternate_phn_no" pattern="[0-9]{10}">
             </div>
             <div class="inline-input form-group">
-                <label for="email">Email:</label>
+                <label for="email">Email:<span class="required-star">*</span></label>
                 <input type="email" id="email" name="email" required>
             </div>
             <div class="inline-input form-group">
@@ -182,15 +189,15 @@
         <h4>8. Project Details</h4>
         <div class="inline-inputs">
             <div class="inline-input form-group">
-                <label for="project_group">Group / Div / Section where the student would take Project Work related Training:</label>
+                <label for="project_group">Group / Div / Section where the student would take Project Work related Training:<span class="required-star">*</span></label>
                 <input type="text" id="project_group" name="project_group" required>
             </div>
             <div class="inline-input form-group">
-                <label for="training_from_date">Permitted Period Of Training (From):</label>
+                <label for="training_from_date">Permitted Period Of Training (From):<span class="required-star">*</span></label>
                 <input type="date" id="training_from_date" name="training_from_date" required>
             </div>
             <div class="inline-input form-group">
-                <label for="training_to_date">To:</label>
+                <label for="training_to_date">To:<span class="required-star">*</span></label>
                 <input type="date" id="training_to_date" name="training_to_date" required>
             </div>
         </div>
@@ -198,47 +205,47 @@
         <h4>9. Bank Details</h4>
         <div class="inline-inputs">
             <div class="inline-input form-group">
-                <label for="bank_name">Name of the Bank:</label>
+                <label for="bank_name">Name of the Bank:<span class="required-star">*</span></label>
                 <input type="text" id="bank_name" name="bank_name" required>
             </div>
             <div class="inline-input form-group">
-                <label for="dd_no">DD number:</label>
+                <label for="dd_no">DD number:<span class="required-star">*</span></label>
                 <input type="number" id="dd_no" name="dd_no" required>
             </div>
             <div class="inline-input form-group">
-                <label for="date_of_dd">Date of DD:</label>
+                <label for="date_of_dd">Date of DD:<span class="required-star">*</span></label>
                 <input type="date" id="date_of_dd" name="date_of_dd" required>
             </div>
             <div class="inline-input form-group">
-                <label for="amount">Amount:</label>
+                <label for="amount">Amount:<span class="required-star">*</span></label>
                 <input type="number" id="amount" name="amount" required>
             </div>
         </div>
 
         <div class="inline-inputs">
             <div class="inline-input form-group">
-                <label for="designation_english">Designation (CLDC) (English):</label>
+                <label for="designation_english">Designation (CLDC) (English):<span class="required-star">*</span></label>
                 <select id="designation_english" name="designation_english" required>
                     <option value="select">Select</option>
                     <option value="manager-hr">Manager-HR(CLDC)</option>
                 </select>
             </div>
-                       <div class="inline-input form-group">
-                <label for="designation_hindi">Designation (CLDC) (Hindi):</label>
+            <div class="inline-input form-group">
+                <label for="designation_hindi">Designation (CLDC) (Hindi):<span class="required-star">*</span></label>
                 <select id="designation_hindi" name="designation_hindi" required>
                     <option value="select">Select</option>
                     <option value="प्रबंधक-सीएलडीसी">प्रबंधक-सीएलडीसी</option>
                 </select>
             </div>
             <div class="inline-input form-group">
-                <label for="incharge_english">Incharge Name (CLDC) (English):</label>
+                <label for="incharge_english">Incharge Name (CLDC) (English):<span class="required-star">*</span></label>
                 <select id="incharge_english" name="incharge_english" required>
                     <option value="select">Select</option>
                     <option value="dr-raj-narayan-awasthi">Dr.Raj Narayan Awasthi</option>
                 </select>
             </div>
             <div class="inline-input form-group">
-                <label for="incharge_hindi">Incharge Name (CLDC) (Hindi):</label>
+                <label for="incharge_hindi">Incharge Name (CLDC) (Hindi):<span class="required-star">*</span></label>
                 <select id="incharge_hindi" name="incharge_hindi" required>
                     <option value="select">Select</option>
                     <option value="डॉ-राज-नारायण-अवस्थी">डॉ. राज नारायण अवस्थी</option>

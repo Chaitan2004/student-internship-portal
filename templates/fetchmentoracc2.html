@@ -133,6 +133,12 @@
             <input type="date" id="selectedDate" name="selectedDate" required>
             <button type="submit">Fetch Data</button>
         </form>
+        <h2>Or Search by Student Name</h2>
+    <form action="/fetchmentoracc2" method="POST">
+        <label for="studentName">Enter Name:</label>
+        <input type="text" id="studentName" name="studentName" placeholder="Full or partial name" required><br>
+        <button type="submit">Fetch Data</button>
+    </form>
 
         {% if error %}
             <p style="color: red;">{{ error }}</p>

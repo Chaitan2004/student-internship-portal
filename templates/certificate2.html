@@ -1,294 +1,213 @@
 <!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/1999/html">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Certificate</title>
+    <title>Internship Certificate</title>
     <style>
-        body {
-            font-family: Arial, Helvetica, sans-serif;
-            margin: 20;
-            padding: 20px;
-            background-color: #f4f4f4;
-            font-size: 14px;
+        @page {
+            size: A4 landscape;
+            margin: 0;
         }
 
-       .container {
-            background-color: white;
-            padding: 30px;
-            border-radius: 5px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-            max-width: 800px;
-            margin: 10px auto;
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Times New Roman', serif;
+            background: #f4f4f4;
+        }
+
+        .certificate {
+            width: 1123px;
+            height: 794px;
+            background: white;
+            margin: 0 auto;
+            padding: 0;
             position: relative;
-            overflow: hidden;
+            background-image: url('{{ url_for("static", filename="border.png") }}');
+            background-size: cover;
+            background-repeat: no-repeat;
+        }
+
+        .watermark {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('{{ url_for("static", filename="EC_Logo.png") }}');
+            background-size: auto 50%; /* Shortens the watermark height */
+            background-position: 53% center;
+            background-repeat: no-repeat;
+            opacity: 0.2;
             z-index: 0;
         }
 
-        .container::before {
-            content: '';
+        .logo {
             position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 100%;
-            height: 100%;
-            background-image: url('https://media.licdn.com/dms/image/C560BAQGq-I3gfKxgOA/company-logo_200_200/0/1630652613712?e=2147483647&v=beta&t=iFo12mEhAA58AW9hvsbOw442ZbrANZCuO1JdgdYW4K8');
-            background-repeat: no-repeat;
-            background-position: center;
-            background-size: 500px;
-            opacity: 0.1;
-            z-index: -1;
-            pointer-events: none; /* Ensure it doesn't interfere with other elements */
+            top: 30px;
+            left: 30px;
+            width: 100px;
+            height: auto;
         }
 
-        .ref-no-container {
+        .photo-box {
             position: absolute;
-            top: 10px;
-            right: 40px;
-            font-size: 16px;
-            z-index: 1;
+            top: 160px;
+            left: 60px;
+            width: 120px;
+            height: 160px;
+            border: 2px solid #000;
+            background: white;
+            z-index: 2;
+        }
+
+        .photo-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .ref-no {
+            position: absolute;
+            top: 30px;
+            right: 50px;
+            font-size: 14px;
         }
 
         .header {
             text-align: center;
-            margin-bottom: 20px;
-            position: relative;
-            padding-top: 50px;
+            line-height: 1.6;
+            padding-top: 30px;
+            color: #003366;
             z-index: 1;
+            font-weight: bold;  /* Makes the text bold */
         }
 
-        .header img {
-            position: absolute;
-            left: 5px;
-            top: 5px;
-            width: 60px;
-            height: auto;
-            z-index: 1;
-        }
-
-        .header h1 {
-            margin: 5px 0;
-            font-size: 20px;
-            font-family: 'Times New Roman', serif;
-            z-index: 1;
-        }
-
-        .header p {
-            margin: 0;
-            font-size: 14px;
-            z-index: 1;
-        }
-
-        th, td {
-            padding: 5px;
-            vertical-align: top;
-            z-index: 1;
-        }
-
-        .cldc {
-            text-align: left;
-            z-index: 1;
-        }
-
-        .ann {
-            text-align: right;
-            z-index: 1;
-        }
-
-        .form-content {
-            font-size: 14px;
-            z-index: 1;
-        }
-
-        .form-content p {
-            margin: 5px 0;
-            font-size: 14px;
-            z-index: 1;
-        }
-
-        .form-content label {
-            display: block;
-            margin: 10px 0;
-            z-index: 1;
-        }
-
-        .certificate-title {
+        .title {
             text-align: center;
-            font-size: 18px;
-            margin: 20px 0;
-            z-index: 1;
-        }
-
-        .certificate-title1 {
-            text-align: center;
-            font-size: 18px;
-            z-index: 1;
-        }
-
-        .signature-section {
-            margin-top: 40px;
-            z-index: 1;
-        }
-
-        .signature-section p {
-            margin-right: 20px;
-            padding-right: 40px;
-            text-align: right;
-            z-index: 1;
-        }
-
-        .signature p {
-            text-align: right;
-            z-index: 1;
-        }
-
-        .footer p {
-            margin: 5px 0;
-            z-index: 1;
-        }
-
-        .address-input {
-            width: 100%;
-            height: 50px;
-            resize: none;
-            border: none;
-            z-index: 1;
-        }
-
-        .button-container {
-            text-align: center;
+            font-size: 26px;
+            font-weight: bold;
             margin-top: 20px;
-            z-index: 1;
+            color: #b30000;
+            text-decoration: underline; /* Underline the text */
+            text-decoration-color: #b30000; /* Red color for the underline */
+            text-decoration-thickness: 3px; /* Bold underline */
         }
-
-        .button-container button {
-            background-color: #004080;
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            z-index: 1;
-        }
-
-        .button-container button:hover {
-            background-color: #003366;
-            z-index: 1;
-        }
-
-                .home-button-container {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            z-index: 1;
-        }
-
-        .home-button {
-            background-color: #004080;
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 4px;
-            text-decoration: none;
-            font-size: 14px;
-            cursor: pointer;
-            display: inline-block;
-            z-index: 1;
-        }
-
-        .home-button:hover {
-            background-color: #003366;
-            z-index: 1;
-        }
-
 
         .content {
-           font-family: 'Times New Roman', serif;
-           font-size: 20px;
-           z-index: 1;
+            margin: 40px 100px 0 200px;
+            font-size: 18px;
+            line-height: 1.7;
+            text-align: justify;
         }
-         .checkbox-container {
+
+        .signature {
+            text-align: right;
+            margin-top: 40px;
+            font-size: 16px;
+            padding-right: 100px;
+        }
+
+        .footer {
+            margin-top: 30px;
+            font-size: 16px;
+            padding-left: 100px;
+        }
+
+        .controls {
             text-align: center;
-            margin-bottom: 20px;
-            z-index: 1;
+            margin-top: 20px;
+        }
+
+        .controls button {
+            padding: 10px 20px;
+            font-size: 16px;
+            margin: 10px;
+        }
+
+        .checkbox-container {
+            text-align: center;
+            margin: 20px 0;
         }
 
         @media print {
-            .home-button-container {
+            .controls, .checkbox-container, .photo-upload {
                 display: none;
             }
 
-            .button-container, .edit-button ,.checkbox-container{
-                display: none;
+            body {
+                background: white;
             }
 
-            .container::before {
-                opacity: 0.1;
+            .certificate {
+                box-shadow: none;
+                margin: 0;
             }
+        }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="ref-no-container">
-            <p>संदर्भ संख्या <strong>Ref No. {{ ref_no }}</strong></p>
-        </div>
-        <div class="header">
-            <img src="https://media.licdn.com/dms/image/C560BAQGq-I3gfKxgOA/company-logo_200_200/0/1630652613712?e=2147483647&v=beta&t=iFo12mEhAA58AW9hvsbOw442ZbrANZCuO1JdgdYW4K8" alt="ECIL Logo">
-            <h1>इलेक्ट्रॉनिक्स कॉरपोरेशन ऑफ इंडिया लिमिटेड</h1>
-            <h1>Electronics Corporation of India Limited</h1>
-            <p>भारत सरकार (परमाणु ऊर्जा विभाग) का एक उपक्रम</p>
-            <p>A Govt. of India (Dept. of Atomic Energy) Enterprise</p>
-            <p>मानव संसाधन&nbsp;/&nbsp;कॉर्पोरेट शिक्षण और विकास केंद्र</p>
-            <p>Human Resource&nbsp;/&nbsp;Corporate Learning & Development Center</p>
-            <p>हैदराबाद&nbsp;/&nbsp;Hyderabad - 500 062</p>
-            <p>फ़ोन&nbsp;/&nbsp;Tel. 040-27182279</p>
-        </div>
+<div class="certificate">
+    <img src="{{ url_for('static', filename='EC_Logo.png') }}" alt="ECIL Logo" class="logo">
+    <div class="watermark"></div>
 
-        <div class="content">
-            <h1 class="certificate-title"><u>प्रमाणपत्र <br>CERTIFICATE</u></h1>
-            <p>
-                Certified that
-                {% if gender == 'male' %}
+    <div class="ref-no">संदर्भ सं. Ref. No. {{ ref_no }}</div>
+
+    <div class="photo-box" id="photoPreview">
+    {% if photo %}
+        <img src="{{ photo }}" alt="User Photo">
+    {% else %}
+        <p>No photo available</p>
+    {% endif %}
+</div>
+
+    <div class="header">
+        <h2 style="margin: 0;">इलेक्ट्रॉनिक्स कॉरपोरेशन ऑफ इंडिया लिमिटेड</h2>
+        <h2 style="margin: 0;">Electronics Corporation of India Limited</h2>
+        <p style="margin: 0px 0;color: #8B0000;">भारत सरकार (परमाणु ऊर्जा विभाग) का उद्यम</p>
+        <p style="margin: 0px 0;color: #8B0000;">GOVERNMENT OF INDIA (DEPARTMENT OF ATOMIC ENERGY) ENTERPRISE</p>
+        <p style="margin: 0px 0;color: #8B0000;">कॉर्पोरेट शिक्षण एवं विकास केंद्र CORPORATE LEARNING AND DEVELOPMENT CENTER</p>
+        <p style="margin: 0px 0;color: #8B0000;">हैदराबाद HYDERABAD–500062</p>
+    </div>
+
+    <div class="title">प्रमाणपत्र CERTIFICATE</div>
+
+    <div class="content">
+        This is to certify that {% if gender == 'male' %}
                     Mr. <strong>{{ student_name | upper }}</strong>, s/o
                 {% else %}
                     Mrs. <strong>{{ student_name | upper }}</strong>, d/o
-                {% endif %}
-                <strong>{{ guardian_name | upper }}</strong>, a student of
-                <strong>{{ college_name | upper }}</strong> studying in
-                <strong>{{ branch | upper }} ({{ course | upper }})</strong>, has completed the project work/training from
-                <strong>{{ start_date }}</strong> to <strong>{{ end_date }}</strong> on
-                <strong>{{ title | upper }}</strong> in our <strong>{{ division | upper }} DIVISION</strong>.
-            </p><br><br>
-
-            <p>
-                This is issued as partial fulfillment of
-                {% if gender == 'male' %}
+                {% endif %} <strong>{{ guardian_name | upper }}</strong>,
+        a student of <strong>{{ branch | upper }} ({{ course | upper }})</strong> studying in
+        <strong>{{ college_name | upper }}</strong>,
+        has successfully completed Internship from <strong>{{ start_date }}</strong> to <strong>{{ end_date }}</strong> on
+        <strong>{{ title | upper }}</strong>
+        in <strong>{{ division | upper }} DIVISION</strong>.
+        <br/><br/>
+        This is issued as a partial fulfillment of {% if gender == 'male' %}
                    <strong>his</strong>
                 {% else %}
                    <strong>her</strong>
                 {% endif %}
-                academic program/curriculum.<br><br>
-                {% if gender == 'male' %}
-                    <strong>His</strong>
+                academic program/curriculum.<br>
+
+        {% if gender == 'male' %}
+                   <strong>His</strong>
                 {% else %}
                    <strong>Her</strong>
                 {% endif %}
-                performance during training was found to be satisfactory.
-            </p>
-        </div>
-        <br><br>
-        <div class="signature-section">
-            <p>(डॉ. राज नारायण अवस्थी&nbsp;/&nbsp;<strong>Dr. Raj Narayan Awasthi</strong>)<br>
-                प्रबंधक सीएलडीसी&nbsp;/&nbsp;<strong>Manager CLDC</strong></p>
-        </div>
-        <p>दिनांक/Date: <strong>{{ today_date }}</strong></p>
-
-
+                performance during training was found to be excellent.
     </div>
-<div class="home-button-container">
-        <a href="/adminhome" class="home-button">Home</a>
+
+    <div class="signature">
+        <p>(डॉ. राज नारायण अवस्थी / Dr. Raj Narayan Awasthi)<br>
+            प्रबंधक एवं प्रभारी-सीएलडीसी Manager & Incharge - CLDC</p>
     </div>
+
+    <div class="footer">
+        दिनांक Date: <strong>{{ today_date }}</strong>
+    </div>
+</div>
 
 </body>
 </html>
