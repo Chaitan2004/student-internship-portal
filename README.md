@@ -19,3 +19,13 @@ Open your terminal (Linux/macOS) or Command Prompt/PowerShell (Windows) and run:
 ```bash
 git clone https://github.com/Chaitan2004/student-internship-portal.git
 cd student-internship-portal
+```
+## Step 2: Build the application
+
+Double-click on the `build.bat` file located in the project folder.  
+This will build the Docker images needed for the application.
+
+## Step 3: Start the application
+
+After building, double-click on the `start.bat` file.  
+This will start the application containers and open the app in your default browser automatically.
