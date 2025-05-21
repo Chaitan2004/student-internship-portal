@@ -17,5 +17,5 @@ Before you start, make sure you have the following installed on your machine:
 Open your terminal (Linux/macOS) or Command Prompt/PowerShell (Windows) and run:
 
 ```bash
-git clone <your-repo-url>
-cd <your-repo-folder>
+git clone https://github.com/Chaitan2004/student-internship-portal.git
+cd student-internship-portal
