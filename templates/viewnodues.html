@@ -181,7 +181,7 @@
 <body>
 <div class="container">
     <div class="header">
-        <img src="https://media.licdn.com/dms/image/C560BAQGq-I3gfKxgOA/company-logo_200_200/0/1630652613712?e=2147483647&v=beta&t=iFo12mEhAA58AW9hvsbOw442ZbrANZCuO1JdgdYW4K8" alt="ECIL Logo">
+    <img src="{{ url_for('static', filename='EC_Logo.png') }}" alt="ECIL Logo" class="logo">
         <h1>ELECTRONICS CORPORATION OF INDIA LIMITED</h1>
         <h1>PERSONAL GROUP</h1>
         <h1>CORPORATE LEARNING CENTRE</h1>
@@ -229,7 +229,7 @@
         <tr>
             <td class="label">8. Details of Project Assigned<BR>&nbsp;&nbsp;&nbsp;(IN CAPITAL LETTERS)</td>
             <td class="colon">:</td>
-            <td class="value">{{ student.projectdetails }}</td>
+            <td class="value">{{ student.project_title }}</td>
         </tr>
         <tr>
             <td class="label">9. Attendance during Training Period</td>

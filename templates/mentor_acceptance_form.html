@@ -101,6 +101,12 @@
     <BR>
 
     <form method="POST" action="/submitmen" enctype="multipart/form-data">
+         <div class="inline-inputs">
+            <div class="inline-input form-group">
+                <label for="mendate">Select the date:<span class="required-star">
+                <input type="date" id="mendate" name="mendate">
+            </div>
+
         <div class="form-group">
             <label for="name">1. Name of the student(s):</label>
             <input type="text" id="name" name="name" placeholder="Enter upto 6 names separated by commas" required>
@@ -118,11 +124,11 @@
             <input type="text" id="institute_name" name="institute_name" required>
         </div>
         <div class="form-group">
-            <label for="project_domain">5. Project Domain:</label>
+            <label for="project_domain">5. Project Domain (optional):</label>
             <input type="text" id="project_domain" name="project_domain" placeholder="Enter upto 6 domains separated by commas">
         </div>
         <div class="form-group">
-            <label for="project_title">6. Project title:</label>
+            <label for="project_title">6. Project title (optional):</label>
             <input type="text" id="project_title" name="project_title" placeholder="Enter upto 6 titles separated by commas">
         </div>
         <div class="form-group">

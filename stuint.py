@@ -339,20 +339,21 @@ def submitmen():
         project_domain = request.form.get('project_domain')
         project_title = request.form.get('project_title')
         guide_name = request.form.get('guide_name')
-        datetoday = date.today().strftime('%Y-%m-%d')
+        datetoday = request.form.get('mendate')
         file = request.files.get('fileUpload')
         phn_no= request.form.get('phone')
+
 
         print(phn_no)
 
         names = [n.strip() for n in name.split(',')]
         courses = [c.strip() for c in course.split(',')]
-        domains = [d.strip() for d in project_domain.split(',')]
-        titles = [t.strip() for t in project_title.split(',')]
+        domains = [d.strip() for d in project_domain.split(',')] if project_domain else []
+        titles = [t.strip() for t in project_title.split(',')] if project_title else []
         phn_nos=[p.strip() for p in phn_no.split(',')]
 
 
-        if not (len(names) == len(courses) == len(domains) == len(titles) == len(phn_nos)):
+        if not (len(names) == len(courses) == len(phn_nos)):
             error_message = "The number of entries for each field must be equal."
             return redirect(url_for('ophome', message=error_message, msg_type='error'))
 
@@ -386,8 +387,8 @@ def submitmen():
                     course=courses[i],
                     branch=branch,
                     institute_name=institute_name,
-                    project_domain=domains[i],
-                    project_title=titles[i],
+                    project_domain=domains[i] if i < len(domains) else None,
+                    project_title=titles[i] if i < len(titles) else None,
                     guide_name=guide_name,
                     date_mentacc=datetoday,
                     file_data=file.read() if file and file.filename.endswith('.pdf') else None,
@@ -629,14 +630,16 @@ def view_certificate():
     student = StudentData.query.filter_by(name=name, phn_no=phone_no).first()
 
     if student:
+        start_date = student.training_from_date.strftime('%d-%b-%Y') if student.training_from_date else ''
+        end_date = student.training_to_date.strftime('%d-%b-%Y') if student.training_to_date else ''
         # Extract details from the student record
         return render_template('certificate.html',
                                student_name=student.name,
                                guardian_name=student.guardian_name,
                                college_name=student.institute_name,
                                course=student.course,
-                               start_date=student.training_from_date,
-                               end_date=student.training_to_date,
+                               start_date=start_date,
+                               end_date=end_date,
                                title=student.project_title,
                                division=student.project_group,
                                today_date=date.today().strftime('%B %d, %Y'),
@@ -846,7 +849,7 @@ def submit_nodues():
             student.ref_no = ref_no
             student.conduct = conduct
             student.attendance = attendance
-            student.projectdetails = project_details
+            student.project_title = project_details
             student.idc = idc
             student.nodues_file = file_data
 
@@ -896,7 +899,7 @@ def submit_nodues2():
             student.ref_no = ref_no if ref_no else student.ref_no
             student.conduct = conduct if conduct else student.conduct
             student.attendance = attendance if attendance else student.attendance
-            student.projectdetails = project_details if project_details else student.projectdetails
+            student.project_title = project_details if project_details else student.project_title
             student.idc = idc if idc else student.idc
             student.nodues_file = file_data if file_data else student.nodues_file
 
@@ -992,7 +995,6 @@ def update_collected_status():
 def certificates_not_collected():
     students = StudentData.query.filter_by(mark='no').all()
     return render_template('certificatesnotcollected.html', students=students)
-from flask import session
 
 @app.route('/student_data', methods=['GET', 'POST'])
 def student_data():
@@ -1042,7 +1044,7 @@ def student_data():
             'Phone Number': student.phn_no,
             'Guide Name': student.guide_name,
             'Project Title': student.project_title,
-            'Training Period': f"{student.training_from_date} to {student.training_to_date}",
+            'Training Period': f"{student.training_from_date.strftime('%d-%b-%Y')} to {student.training_to_date.strftime('%d-%b-%Y')}",
         } for student in students]
 
         df = pd.DataFrame(data)
@@ -1097,6 +1099,8 @@ def certificate2(student_id):
 
     student = StudentData.query.get(student_id)
     if student:
+        start_date = student.training_from_date.strftime('%d-%b-%Y') if student.training_from_date else ''
+        end_date = student.training_to_date.strftime('%d-%b-%Y') if student.training_to_date else ''
         if student.photo:
             encoded_photo = base64.b64encode(student.photo).decode('utf-8')
             photo_data_url = f"data:image/jpeg;base64,{encoded_photo}"  # or image/png if it's PNG
@@ -1106,8 +1110,8 @@ def certificate2(student_id):
                                    guardian_name=student.guardian_name,
                                    college_name=student.institute_name,
                                    course=student.course,
-                                   start_date=student.training_from_date,
-                                   end_date=student.training_to_date,
+                                   start_date=start_date,
+                                   end_date=end_date,
                                    title=student.project_title,
                                    division=student.project_group,
                                    today_date=student.certificatecollectiondate,
@@ -1120,8 +1124,8 @@ def certificate2(student_id):
                                    guardian_name=student.guardian_name,
                                    college_name=student.institute_name,
                                    course=student.course,
-                                   start_date=student.training_from_date,
-                                   end_date=student.training_to_date,
+                                   start_date=start_date,
+                                   end_date=end_date,
                                    title=student.project_title,
                                    division=student.project_group,
                                    today_date=student.certificatecollectiondate,
@@ -1216,6 +1220,14 @@ def search2():
         students = query.all()
 
     return render_template('viewverification2.html', students=students)
+
+@app.route('/delete/<int:student_id>', methods=['POST'])
+def delete_student(student_id):
+    student = StudentData.query.get_or_404(student_id)
+    db.session.delete(student)
+    db.session.commit()
+    return redirect(url_for('student_data'))  # Adjust if route is named differently
+
 
 
 if __name__ == '__main__':
