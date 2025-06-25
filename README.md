@@ -29,3 +29,12 @@ This will build the Docker images needed for the application.
 
 After building, double-click on the `start.bat` file.  
 This will start the application containers and open the app in your default browser automatically.
+
+### Steps for linux
+Run these commands:
+```bash
+docker-compose build && echo "✅ Build complete!"
+docker-compose up -d
+sleep 5
+xdg-open http://localhost:5000
+```
